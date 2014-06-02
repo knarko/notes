@@ -1,0 +1,34 @@
+4. 
+c) 
+Protecting credit card information from hackers is difficult. According to the PCI SSC PA-DSS requirements, the Primary Account Number (PAN), Cardholder Name, Service Code and Expiration Date can be stored. The full track data, pin/pin block and CAV/CBC/CVV/CID codes should never be stored. The PAN should always be rendered unreadable using one-way hashes, truncation, index tokens or cryptography. If the PAN has to be retrievable, index tokens and strong cryptography are the only options.
+
+Regardless, in the case of BrianAir, a small company with limited resources, the payment system should be outsourced to a payment service provider. 
+
+
+e)
+(Doing anything sensitive in the front-end is extremely hazardous, as control is handed off to the client computer. A malicious user could very easily change the code to whatever he or she wants. One should always concider what control is given to the client.)
+
+Separation of concern. There might be several different front-ends (web, phone app, pc application, ...). Each of these would have to implement the same logic, and a simple bug in one of them could affect all the others. If the system is changed slightly, every application has to be changed. Keeping only one easy to maintain version of the code is preferrable.
+
+Reducing load on the client. 
+
+Not revealing implementation details (security by obscurity is almost real).
+
+
+
+
+
+
+Only present in the memory of session A. Not yet written to disk.
+... had started a transaction and commited it, B would be able to see the newly added reservation. 
+
+c) B waits until the new reservation is commited, then modifies it.
+d) If the reservation should be kept, A commits all changes. If not, A discards them. 
+
+
+a) In order for an overbooking to occur, two clients have to execute rows 21-24 in procedures.sql, before either of them executes rows 99-101, in a call to add_passenger.
+
+If that were to occur, both clients would be under the impression that there were unpaid seats left. Therefore, they would both proceed to mark their bookings as paid, potentially overbooking the flight. 
+
+
+Write lock on booking. Read lock on passenger, payment, seats. 
