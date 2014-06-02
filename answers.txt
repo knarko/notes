@@ -1,4 +1,4 @@
-4. 
+4, 
 c) 
 Protecting credit card information from hackers is difficult. According to the PCI SSC PA-DSS requirements, the Primary Account Number (PAN), Cardholder Name, Service Code and Expiration Date can be stored. The full track data, pin/pin block and CAV/CBC/CVV/CID codes should never be stored. The PAN should always be rendered unreadable using one-way hashes, truncation, index tokens or cryptography. If the PAN has to be retrievable, index tokens and strong cryptography are the only options.
 
@@ -17,12 +17,11 @@ Not revealing implementation details (security by obscurity is almost real).
 
 
 
+9,
+b) The newly added reservation is only present in the memory of session A. It is not yet written to disk.
+If A commited the change, B would be able to see the newly added reservation. 
 
-
-Only present in the memory of session A. Not yet written to disk.
-... had started a transaction and commited it, B would be able to see the newly added reservation. 
-
-c) B waits until the new reservation is commited, then modifies it.
+c) B waits until A is done modifying the table. When the new reservation is commited, B will modify it.
 d) If the reservation should be kept, A commits all changes. If not, A discards them. 
 
 
