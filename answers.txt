@@ -6,7 +6,7 @@ Regardless, in the case of BrianAir, a small company with limited resources, the
 
 
 e)
-(Doing anything sensitive in the front-end is extremely hazardous, as control is handed off to the client computer. A malicious user could very easily change the code to whatever he or she wants. One should always concider what control is given to the client.)
+(Doing anything sensitive in the front-end is extremely hazardous, as control is handed off to the client computer. A malicious user could very easily change the code to whatever he or she wants. One should always concider what control is given to the client. Everything has to be verified on the server side.)
 
 Separation of concern. There might be several different front-ends (web, phone app, pc application, ...). Each of these would have to implement the same logic, and a simple bug in one of them could affect all the others. If the system is changed slightly, every application has to be changed. Keeping only one easy to maintain version of the code is preferrable.
 
@@ -22,12 +22,14 @@ b) The newly added reservation is only present in the memory of session A. It is
 If A commited the change, B would be able to see the newly added reservation. 
 
 c) B waits until A is done modifying the table. When the new reservation is commited, B will modify it.
+
 d) If the reservation should be kept, A commits all changes. If not, A discards them. 
 
-
+10,
 a) In order for an overbooking to occur, two clients have to execute rows 21-24 in procedures.sql, before either of them executes rows 99-101, in a call to add_passenger.
 
 If that were to occur, both clients would be under the impression that there were unpaid seats left. Therefore, they would both proceed to mark their bookings as paid, potentially overbooking the flight. 
 
+b) Write lock on Booking. Read lock on Passenger, Payment, Seats.
 
-Write lock on booking. Read lock on passenger, payment, seats. 
+c) Since there now is a write lock on Booking, multiple clients can not read or write from the table at the same time. This will resolve the problem in a), since the first client will be allowed to complete rows 99-101 before the second client executes rows 21-24.
